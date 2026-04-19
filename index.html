@@ -16,57 +16,87 @@ body{
   background:linear-gradient(135deg,#4facfe,#00f2fe);
 }
 
-/* กล่อง */
+/* กล่องเต็มจอมือถือ */
 .card{
   background:white;
-  padding:25px;
-  width:340px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  padding:20px;
+  width:95%;
+  max-width:500px;
+  border-radius:25px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.2);
   text-align:center;
+}
+
+/* คำศัพท์ใหญ่ */
+#word{
+  font-size:45px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+
+/* ช่องพิมพ์ */
+input{
+  padding:15px;
+  width:90%;
+  border-radius:15px;
+  border:1px solid #ccc;
+  font-size:20px;
 }
 
 /* ปุ่ม */
 button{
-  padding:15px;
+  padding:18px;
   border:none;
-  border-radius:15px;
+  border-radius:18px;
   background:#4facfe;
   color:white;
-  font-size:16px;
+  font-size:18px;
   font-weight:bold;
   cursor:pointer;
+  width:100%;
+  margin-top:10px;
+  transition:0.2s;
 }
 
-/* grid เมนู */
+button:active{
+  transform:scale(0.95);
+}
+
+/* เมนู grid */
 .menu-grid{
   display:grid;
   grid-template-columns: repeat(2, 1fr);
-  gap:10px;
+  gap:12px;
   margin-top:10px;
 }
 
-/* input */
-input{
-  padding:12px;
-  width:80%;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
+/* ปุ่มเล็กด้านล่าง */
+.nav-btn{
+  width:30%;
+  display:inline-block;
 }
 
-/* hover */
-button:hover{
-  background:#3b8eea;
+/* ข้อความผลลัพธ์ */
+#result{
+  font-size:20px;
+  margin-top:10px;
 }
+
+/* progress */
+#progress{
+  font-size:16px;
+  margin-top:5px;
+  color:#555;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- หน้าเมนู -->
+<!-- MENU -->
 <div id="menu" class="card">
-  <h2>📘 Vocab App By Khon</h2>
+  <h2>📘 Vocab App BY👉KHON HUNNAL👍</h2>
 
   <div class="menu-grid">
     <button onclick="start('fruit')">🍎 ผลไม้</button>
@@ -77,25 +107,27 @@ button:hover{
     <button onclick="start('work')">💼 การทำงาน</button>
   </div>
 
-  <hr>
   <button onclick="start('mix')">🔥 สุ่มทุกหมวด</button>
 </div>
 
-<!-- หน้า quiz -->
+<!-- QUIZ -->
 <div id="quiz" class="card" style="display:none;">
-  <h2 id="word"></h2>
+
+  <div id="word"></div>
 
   <input id="ans" placeholder="พิมพ์คำศัพท์">
 
-  <br><br>
-  <button onclick="check()">ตอบ</button>
+  <button onclick="check()">✅ ตอบ</button>
 
-  <p id="result"></p>
-  <p id="progress"></p>
+  <div id="result"></div>
+  <div id="progress"></div>
 
-  <button onclick="prev()">⬅️</button>
-  <button onclick="next()">➡️</button>
-  <button onclick="home()">🏠</button>
+  <div>
+    <button class="nav-btn" onclick="prev()">⬅️</button>
+    <button class="nav-btn" onclick="next()">➡️</button>
+    <button class="nav-btn" onclick="home()">🏠</button>
+  </div>
+
 </div>
 
 <script>
@@ -108,7 +140,7 @@ function sound(ok){
  ).play();
 }
 
-// 📚 ข้อมูลคำศัพท์
+// 📚 คำศัพท์
 const data={
  fruit:[
   {th:"แอปเปิ้ล",en:"apple"},
@@ -153,7 +185,7 @@ function start(cat){
  show();
 }
 
-// 📖 แสดงคำ
+// 📖 แสดง
 function show(){
  let q=list[i];
  word.innerText=q.th;
@@ -162,13 +194,13 @@ function show(){
  progress.innerText=`ข้อ ${i+1}/${list.length} | คะแนน ${score}`;
 }
 
-// ✅ ตรวจคำตอบ
+// ✅ ตรวจ
 function check(){
  let user=ans.value.toLowerCase().trim();
  let correct=list[i].en.toLowerCase();
 
  if(user===correct){
-   result.innerText="✅ ถูก";
+   result.innerText="🎉 ถูกต้อง!";
    score++;
    sound(true);
  }else{
@@ -196,7 +228,7 @@ function prev(){
  }
 }
 
-// 🏠 กลับหน้าแรก
+// 🏠 หน้าแรก
 function home(){
  location.reload();
 }
@@ -204,13 +236,13 @@ function home(){
 // 🎯 จบ
 function finish(){
  if(wrong.length>0){
-   alert("ทบทวนคำที่ผิด");
+   alert("🔁 ทบทวนคำที่ผิด");
    list=wrong;
    wrong=[];
    i=0;
    show();
  }else{
-   alert("จบแล้ว! คะแนน: "+score);
+   alert("🏆 คะแนน: "+score);
  }
 }
 
