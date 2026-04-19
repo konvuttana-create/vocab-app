@@ -16,34 +16,27 @@ body{
   background:linear-gradient(135deg,#4facfe,#00f2fe);
 }
 
-/* กล่องเต็มจอมือถือ */
 .card{
   background:white;
   padding:20px;
   width:95%;
   max-width:500px;
   border-radius:25px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.2);
   text-align:center;
 }
 
-/* คำศัพท์ใหญ่ */
 #word{
   font-size:45px;
   font-weight:bold;
-  margin-bottom:20px;
 }
 
-/* ช่องพิมพ์ */
 input{
   padding:15px;
   width:90%;
   border-radius:15px;
-  border:1px solid #ccc;
   font-size:20px;
 }
 
-/* ปุ่ม */
 button{
   padding:18px;
   border:none;
@@ -51,176 +44,116 @@ button{
   background:#4facfe;
   color:white;
   font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
   width:100%;
   margin-top:10px;
-  transition:0.2s;
 }
 
-button:active{
-  transform:scale(0.95);
-}
-
-/* เมนู grid */
-.menu-grid{
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:12px;
-  margin-top:10px;
-}
-
-/* ปุ่มเล็กด้านล่าง */
 .nav-btn{
   width:30%;
-  display:inline-block;
 }
 
-/* ข้อความผลลัพธ์ */
 #result{
   font-size:20px;
   margin-top:10px;
 }
-
-/* progress */
-#progress{
-  font-size:16px;
-  margin-top:5px;
-  color:#555;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- MENU -->
 <div id="menu" class="card">
-  <h2>📘 Vocab App BY👉KHON HUNNAL👍</h2>
-
-  <div class="menu-grid">
-    <button onclick="start('fruit')">🍎 ผลไม้</button>
-    <button onclick="start('animal')">🐶 สัตว์</button>
-    <button onclick="start('place')">🏫 สถานที่</button>
-    <button onclick="start('date')">📅 วัน/เดือน</button>
-    <button onclick="start('daily')">🧴 ของใช้</button>
-    <button onclick="start('work')">💼 การทำงาน</button>
-  </div>
-
-  <button onclick="start('mix')">🔥 สุ่มทุกหมวด</button>
+  <h2>📘 Vocab App</h2>
+  <button onclick="start('fruit')">🍎 ผลไม้</button>
+  <button onclick="start('animal')">🐶 สัตว์</button>
+  <button onclick="start('mix')">🔥 สุ่ม</button>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz" class="card" style="display:none;">
-
   <div id="word"></div>
 
   <input id="ans" placeholder="พิมพ์คำศัพท์">
 
-  <button onclick="check()">✅ ตอบ</button>
+  <button onclick="check()">ตอบ</button>
+
+  <button onclick="speak()">🔊 ฟังเสียง</button>
 
   <div id="result"></div>
-  <div id="progress"></div>
 
-  <div>
-    <button class="nav-btn" onclick="prev()">⬅️</button>
-    <button class="nav-btn" onclick="next()">➡️</button>
-    <button class="nav-btn" onclick="home()">🏠</button>
-  </div>
-
+  <button class="nav-btn" onclick="prev()">⬅️</button>
+  <button class="nav-btn" onclick="next()">➡️</button>
+  <button class="nav-btn" onclick="home()">🏠</button>
 </div>
 
 <script>
 
-// 🔊 เสียง
-function sound(ok){
- new Audio(ok?
- "https://www.soundjay.com/buttons/sounds/button-3.mp3":
- "https://www.soundjay.com/buttons/sounds/button-10.mp3"
- ).play();
+// 🔊 ฟังก์ชันพูด
+function speak(text=null){
+ let word = text || list[i].en;
+ let msg = new SpeechSynthesisUtterance(word);
+ msg.lang = "en-US";
+ speechSynthesis.speak(msg);
 }
 
 // 📚 คำศัพท์
 const data={
  fruit:[
-  {th:"แอปเปิ้ล",en:"apple"},
-  {th:"กล้วย",en:"banana"}
+  {th:"แอปเปิ้ล",en:"apple",read:"แอ๊ป-เพิล"},
+  {th:"กล้วย",en:"banana",read:"บะ-นา-นะ"}
  ],
  animal:[
-  {th:"หมา",en:"dog"},
-  {th:"แมว",en:"cat"}
- ],
- place:[
-  {th:"โรงเรียน",en:"school"}
- ],
- date:[
-  {th:"วันจันทร์",en:"monday"}
- ],
- daily:[
-  {th:"โต๊ะ",en:"table"}
- ],
- work:[
-  {th:"ประชุม",en:"meeting"}
+  {th:"หมา",en:"dog",read:"ด็อก"},
+  {th:"แมว",en:"cat",read:"แคท"}
  ]
 };
 
-let list=[],i=0,score=0,wrong=[];
+let list=[],i=0,wrong=[];
 
-// ▶️ เริ่ม
 function start(cat){
-
  if(cat==="mix"){
    list=[].concat(...Object.values(data));
  }else{
    list=[...data[cat]];
  }
 
- list=list.sort(()=>Math.random()-0.5);
-
- i=0; score=0; wrong=[];
-
+ i=0; wrong=[];
  menu.style.display="none";
  quiz.style.display="block";
-
  show();
 }
 
-// 📖 แสดง
 function show(){
- let q=list[i];
- word.innerText=q.th;
+ word.innerText=list[i].th;
  ans.value="";
  result.innerText="";
- progress.innerText=`ข้อ ${i+1}/${list.length} | คะแนน ${score}`;
 }
 
-// ✅ ตรวจ
+// ✅ ตรวจคำตอบ
 function check(){
  let user=ans.value.toLowerCase().trim();
  let correct=list[i].en.toLowerCase();
+ let read=list[i].read;
 
  if(user===correct){
-   result.innerText="🎉 ถูกต้อง!";
-   score++;
-   sound(true);
+   result.innerHTML=`✅ ${correct} <br>🔊 ${read}`;
+   speak(correct); // 🔊 อ่านอัตโนมัติ
  }else{
-   result.innerText="❌ "+correct;
+   result.innerHTML=`❌ ${correct} <br>🔊 ${read}`;
+   speak(correct);
    wrong.push(list[i]);
-   sound(false);
  }
 }
 
-// ➡️ ถัดไป
+// ➡️
 function next(){
  if(i<list.length-1){
    i++;
    show();
  }else{
-   finish();
+   alert("จบแล้ว");
  }
 }
 
-// ⬅️ ย้อน
+// ⬅️
 function prev(){
  if(i>0){
    i--;
@@ -228,22 +161,9 @@ function prev(){
  }
 }
 
-// 🏠 หน้าแรก
+// 🏠
 function home(){
  location.reload();
-}
-
-// 🎯 จบ
-function finish(){
- if(wrong.length>0){
-   alert("🔁 ทบทวนคำที่ผิด");
-   list=wrong;
-   wrong=[];
-   i=0;
-   show();
- }else{
-   alert("🏆 คะแนน: "+score);
- }
 }
 
 </script>
