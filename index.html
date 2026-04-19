@@ -56,90 +56,233 @@ button{
   font-size:20px;
   margin-top:10px;
 }
+
+#progress{
+  margin-top:5px;
+  color:#555;
+}
 </style>
 </head>
 
 <body>
 
+<!-- MENU -->
 <div id="menu" class="card">
   <h2>📘 Vocab App</h2>
-  <button onclick="start('fruit')">🍎 ผลไม้</button>
+
   <button onclick="start('animal')">🐶 สัตว์</button>
-  <button onclick="start('mix')">🔥 สุ่ม</button>
+  <button onclick="start('daily')">🧴 ของใช้</button>
+  <button onclick="start('Techer')">📘 ครูแอน</button>
+  <button onclick="start('mix')">🔥 สุ่มทั้งหมด</button>
 </div>
 
+<!-- QUIZ -->
 <div id="quiz" class="card" style="display:none;">
   <div id="word"></div>
+
+  <div id="progress"></div>
 
   <input id="ans" placeholder="พิมพ์คำศัพท์">
 
   <button onclick="check()">ตอบ</button>
-
   <button onclick="speak()">🔊 ฟังเสียง</button>
 
   <div id="result"></div>
 
-  <button class="nav-btn" onclick="prev()">⬅️</button>
-  <button class="nav-btn" onclick="next()">➡️</button>
-  <button class="nav-btn" onclick="home()">🏠</button>
+  <div>
+    <button class="nav-btn" onclick="prev()">⬅️</button>
+    <button class="nav-btn" onclick="next()">➡️</button>
+    <button class="nav-btn" onclick="home()">🏠</button>
+  </div>
 </div>
 
 <script>
 
-// 🔊 ฟังก์ชันพูด
+// 🔊 เสียง
 function speak(text=null){
  let word = text || list[i].en;
  let msg = new SpeechSynthesisUtterance(word);
- msg.lang = "en-US";
+ msg.lang="en-US";
  speechSynthesis.speak(msg);
 }
 
-// 📚 คำศัพท์
+// 🔀 สุ่ม
+function shuffle(array){
+ return array.sort(()=>Math.random()-0.5);
+}
+
+// 📚 DATA (ตัวอย่างบางส่วน)
 const data={
- fruit:[
-  {th:"แอปเปิ้ล",en:"apple",read:"แอ๊ป-เพิล"},
-  {th:"กล้วย",en:"banana",read:"บะ-นา-นะ"}
+ animal: [
+{th:"สุนัข", en:"dog", read:"ด็อก"},
+{th:"แมว", en:"cat", read:"แคท"},
+{th:"นก", en:"bird", read:"เบิร์ด"},
+{th:"ปลา", en:"fish", read:"ฟิช"},
+{th:"วัว", en:"cow", read:"คาว"},
+{th:"หมู", en:"pig", read:"พิก"},
+{th:"ม้า", en:"horse", read:"ฮอร์ส"},
+{th:"ไก่", en:"chicken", read:"ชิคเคิน"},
+{th:"เป็ด", en:"duck", read:"ดัค"},
+{th:"แพะ", en:"goat", read:"โกท"},
+{th:"แกะ", en:"sheep", read:"ชีพ"},
+{th:"เสือ", en:"tiger", read:"ไทเกอร์"},
+{th:"สิงโต", en:"lion", read:"ไลออน"},
+{th:"ช้าง", en:"elephant", read:"เอลิแฟนท์"},
+{th:"ลิง", en:"monkey", read:"มังคี"},
+{th:"งู", en:"snake", read:"สเนค"},
+{th:"กบ", en:"frog", read:"ฟร็อก"},
+{th:"เต่า", en:"turtle", read:"เทอร์เทิล"},
+{th:"กระต่าย", en:"rabbit", read:"แรบบิท"},
+{th:"กวาง", en:"deer", read:"เดียร์"},
+{th:"หมี", en:"bear", read:"แบร์"},
+{th:"ม้าลาย", en:"zebra", read:"ซีบร้า"},
+{th:"ยีราฟ", en:"giraffe", read:"จิราฟ"},
+{th:"จิงโจ้", en:"kangaroo", read:"แคงการู"},
+{th:"แพนด้า", en:"panda", read:"แพนด้า"},
+{th:"สุนัขจิ้งจอก", en:"fox", read:"ฟ็อกซ์"},
+{th:"หมาป่า", en:"wolf", read:"วูล์ฟ"},
+{th:"โลมา", en:"dolphin", read:"ดอลฟิน"},
+{th:"วาฬ", en:"whale", read:"เวล"},
+{th:"ฉลาม", en:"shark", read:"ชาร์ค"},
+{th:"ปู", en:"crab", read:"แครบ"},
+{th:"กุ้ง", en:"shrimp", read:"ชริมพ์"},
+{th:"ปลาหมึก", en:"octopus", read:"ออคโทพัส"},
+{th:"มด", en:"ant", read:"แอนท์"},
+{th:"ผึ้ง", en:"bee", read:"บี"},
+{th:"ผีเสื้อ", en:"butterfly", read:"บัตเตอร์ฟลาย"},
+{th:"แมงมุม", en:"spider", read:"สไปเดอร์"},
+{th:"ยุง", en:"mosquito", read:"มอสคีโท"},
+{th:"แมลงวัน", en:"fly", read:"ฟลาย"},
+{th:"แมลงสาบ", en:"cockroach", read:"ค็อกโครช"},
+{th:"นกอินทรี", en:"eagle", read:"อีเกิล"},
+{th:"นกฮูก", en:"owl", read:"เอาวล์"},
+{th:"นกยูง", en:"peacock", read:"พีค็อก"},
+{th:"ค้างคาว", en:"bat", read:"แบท"},
+{th:"อูฐ", en:"camel", read:"แคเมล"},
+{th:"จิ้งจก/กิ้งก่า", en:"lizard", read:"ลิซาร์ด"},
+{th:"เม่น", en:"hedgehog", read:"เฮดจ์ฮ็อก"},
+{th:"แมวน้ำ", en:"seal", read:"ซีล"},
+{th:"เพนกวิน", en:"penguin", read:"เพนกวิน"},
+{th:"นกฟลามิงโก", en:"flamingo", read:"ฟลามิงโก"}
+],
+
+daily: [
+{th:"โต๊ะ", en:"table", read:"เทเบิล"},
+{th:"เก้าอี้", en:"chair", read:"แชร์"},
+{th:"เตียง", en:"bed", read:"เบด"},
+{th:"หมอน", en:"pillow", read:"พิลโลว์"},
+{th:"ผ้าห่ม", en:"blanket", read:"แบลงเคท"},
+{th:"พัดลม", en:"fan", read:"แฟน"},
+{th:"ไฟ", en:"light", read:"ไลท์"},
+{th:"ประตู", en:"door", read:"ดอร์"},
+{th:"หน้าต่าง", en:"window", read:"วินโดว์"},
+{th:"นาฬิกา", en:"clock", read:"คลอค"},
+{th:"โทรศัพท์", en:"phone", read:"โฟน"},
+{th:"คอมพิวเตอร์", en:"computer", read:"คอมพิวเตอร์"},
+{th:"โน้ตบุ๊ก", en:"laptop", read:"แล็ปท็อป"},
+{th:"เมาส์", en:"mouse", read:"เมาส์"},
+{th:"แป้นพิมพ์", en:"keyboard", read:"คีย์บอร์ด"},
+{th:"ที่ชาร์จ", en:"charger", read:"ชาร์จเจอร์"},
+{th:"กระเป๋า", en:"bag", read:"แบ็ก"},
+{th:"กระเป๋าสตางค์", en:"wallet", read:"วอลเล็ท"},
+{th:"กุญแจ", en:"key", read:"คีย์"},
+{th:"แก้วน้ำ", en:"glass", read:"กลาส"},
+{th:"ถ้วย", en:"cup", read:"คัพ"},
+{th:"จาน", en:"plate", read:"เพลท"},
+{th:"ช้อน", en:"spoon", read:"สปูน"},
+{th:"ส้อม", en:"fork", read:"ฟอร์ค"},
+{th:"มีด", en:"knife", read:"ไนฟ์"},
+{th:"ขวด", en:"bottle", read:"บอทเทิล"},
+{th:"ตู้เย็น", en:"refrigerator", read:"รีฟริเจอเรเตอร์"},
+{th:"ไมโครเวฟ", en:"microwave", read:"ไมโครเวฟ"},
+{th:"เตา", en:"stove", read:"สโตฟ"},
+{th:"หม้อหุงข้าว", en:"rice cooker", read:"ไรซ์คุกเกอร์"},
+{th:"สบู่", en:"soap", read:"โซพ"},
+{th:"แชมพู", en:"shampoo", read:"แชมพู"},
+{th:"แปรงสีฟัน", en:"toothbrush", read:"ทูธบรัช"},
+{th:"ยาสีฟัน", en:"toothpaste", read:"ทูธเพสท์"},
+{th:"ผ้าเช็ดตัว", en:"towel", read:"ทาวเวล"},
+{th:"หวี", en:"comb", read:"โคมบ์"},
+{th:"กระจก", en:"mirror", read:"มิเรอร์"},
+{th:"เสื้อผ้า", en:"clothes", read:"โคลธส์"},
+{th:"เสื้อ", en:"shirt", read:"เชิร์ท"},
+{th:"กางเกง", en:"pants", read:"แพนท์ส"},
+{th:"รองเท้า", en:"shoes", read:"ชูส์"},
+{th:"หมวก", en:"hat", read:"แฮท"},
+{th:"นาฬิกาข้อมือ", en:"watch", read:"วอทช์"},
+{th:"ปากกา", en:"pen", read:"เพน"},
+{th:"ดินสอ", en:"pencil", read:"เพนซิล"},
+{th:"หนังสือ", en:"book", read:"บุ๊ค"},
+{th:"สมุด", en:"notebook", read:"โน้ตบุ๊ก"},
+{th:"กระดาษ", en:"paper", read:"เปเปอร์"},
+{th:"ถังขยะ", en:"trash can", read:"แทรชแคน"},
+{th:"ร่ม", en:"umbrella", read:"อัมเบรลลา"}
  ],
- animal:[
-  {th:"หมา",en:"dog",read:"ด็อก"},
-  {th:"แมว",en:"cat",read:"แคท"}
+
+Techer: [
+{th:"ผู้คน", en:"people", read:"พีเพิล"},
+{th:"คน", en:"person", read:"เพอร์ซัน"},
+{th:"สัตว์เลี้ยง", en:"pet", read:"เพ็ท"},
+{th:"โทรศัพท์", en:"phone", read:"โฟน"},
+{th:"รูปถ่าย", en:"photo", read:"โฟโต้"},
+{th:"รูปภาพ", en:"picture", read:"พิกเชอร์"},
+{th:"ชิ้น", en:"piece", read:"พีซ"},
+{th:"หมอน", en:"pillow", read:"พิลโลว"},
+{th:"สถานที่", en:"place", read:"เพลส"},
+{th:"พืช", en:"plant", read:"พลานท์"},
+{th:"ตำรวจ", en:"police", read:"โพลีซ"},
+{th:"ตำรวจ 1 นาย", en:"policeman", read:"โพลีซแมน"},
+{th:"การฝึกฝน", en:"practice", read:"แพร็กทิส"},
+{th:"ราคา", en:"price", read:"ไพร์ซ"},
+{th:"ปัญหา", en:"problem", read:"พร็อบเบลิม"}
  ]
 };
 
-let list=[],i=0,wrong=[];
+let list=[],i=0,wrong=[],score=0;
 
+// ▶️ เริ่ม
 function start(cat){
+
  if(cat==="mix"){
    list=[].concat(...Object.values(data));
  }else{
    list=[...data[cat]];
  }
 
- i=0; wrong=[];
+ list=shuffle(list); // 🔥 สุ่มทุกครั้ง
+
+ i=0; wrong=[]; score=0;
+
  menu.style.display="none";
  quiz.style.display="block";
+
  show();
 }
 
+// 📖 แสดง
 function show(){
- word.innerText=list[i].th;
+ let q=list[i];
+ word.innerText=q.th;
  ans.value="";
  result.innerText="";
+
+ progress.innerText=`คำที่ ${i+1} / ${list.length} | คะแนน ${score}`;
 }
 
-// ✅ ตรวจคำตอบ
+// ✅ ตรวจ
 function check(){
  let user=ans.value.toLowerCase().trim();
  let correct=list[i].en.toLowerCase();
  let read=list[i].read;
 
  if(user===correct){
-   result.innerHTML=`✅ ${correct} <br>🔊 ${read}`;
-   speak(correct); // 🔊 อ่านอัตโนมัติ
- }else{
-   result.innerHTML=`❌ ${correct} <br>🔊 ${read}`;
+   result.innerHTML=`✅ ${correct}<br>🔊 ${read}`;
+   score++;
    speak(correct);
+ }else{
+   result.innerHTML=`❌ ${correct}<br>🔊 ${read}`;
    wrong.push(list[i]);
+   speak(correct);
  }
 }
 
@@ -149,7 +292,7 @@ function next(){
    i++;
    show();
  }else{
-   alert("จบแล้ว");
+   finish();
  }
 }
 
@@ -164,6 +307,19 @@ function prev(){
 // 🏠
 function home(){
  location.reload();
+}
+
+// 🎯 จบ
+function finish(){
+ if(wrong.length>0){
+   alert("🔁 ทบทวนคำที่ผิด");
+   list=shuffle(wrong);
+   wrong=[];
+   i=0;
+   show();
+ }else{
+   alert("🏆 คะแนน: "+score);
+ }
 }
 
 </script>
