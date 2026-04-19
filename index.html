@@ -5,75 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vocab App</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-
 <style>
 body{
   font-family: Arial;
   margin:0;
-  text-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
   background:linear-gradient(135deg,#4facfe,#00f2fe);
 }
 
+/* กล่อง */
 .card{
   background:white;
-  margin:50px auto;
   padding:25px;
-  width:320px;
+  width:340px;
   border-radius:20px;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  text-align:center;
 }
 
+/* ปุ่ม */
 button{
-  padding:10px;
-  margin:5px;
+  padding:15px;
   border:none;
-  border-radius:10px;
+  border-radius:15px;
   background:#4facfe;
   color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
+/* grid เมนู */
+.menu-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+/* input */
 input{
-  padding:10px;
+  padding:12px;
   width:80%;
   border-radius:10px;
   border:1px solid #ccc;
+  font-size:16px;
+}
+
+/* hover */
+button:hover{
+  background:#3b8eea;
 }
 </style>
 </head>
 
 <body>
 
+<!-- หน้าเมนู -->
 <div id="menu" class="card">
-<h2>📘 Vocab App</h2>
+  <h2>📘 Vocab App By Khon</h2>
 
-<button onclick="start('fruit')">ผลไม้</button>
-<button onclick="start('animal')">สัตว์</button>
-<button onclick="start('place')">สถานที่</button>
-<button onclick="start('date')">วัน/เดือน</button>
-<button onclick="start('daily')">ของใช้</button>
-<button onclick="start('work')">การทำงาน</button>
+  <div class="menu-grid">
+    <button onclick="start('fruit')">🍎 ผลไม้</button>
+    <button onclick="start('animal')">🐶 สัตว์</button>
+    <button onclick="start('place')">🏫 สถานที่</button>
+    <button onclick="start('date')">📅 วัน/เดือน</button>
+    <button onclick="start('daily')">🧴 ของใช้</button>
+    <button onclick="start('work')">💼 การทำงาน</button>
+  </div>
 
-<hr>
-<button onclick="start('mix')">🔥 สุ่มทุกหมวด</button>
-
+  <hr>
+  <button onclick="start('mix')">🔥 สุ่มทุกหมวด</button>
 </div>
 
+<!-- หน้า quiz -->
 <div id="quiz" class="card" style="display:none;">
-<h2 id="word"></h2>
+  <h2 id="word"></h2>
 
-<input id="ans" placeholder="พิมพ์คำศัพท์">
+  <input id="ans" placeholder="พิมพ์คำศัพท์">
 
-<br><br>
-<button onclick="check()">ตอบ</button>
+  <br><br>
+  <button onclick="check()">ตอบ</button>
 
-<p id="result"></p>
-<p id="progress"></p>
+  <p id="result"></p>
+  <p id="progress"></p>
 
-<button onclick="prev()">⬅️</button>
-<button onclick="next()">➡️</button>
-<button onclick="home()">🏠</button>
+  <button onclick="prev()">⬅️</button>
+  <button onclick="next()">➡️</button>
+  <button onclick="home()">🏠</button>
 </div>
 
 <script>
@@ -86,19 +108,33 @@ function sound(ok){
  ).play();
 }
 
-// 📚 data
+// 📚 ข้อมูลคำศัพท์
 const data={
- fruit:[{th:"แอปเปิ้ล",en:"apple"},{th:"กล้วย",en:"banana"}],
- animal:[{th:"หมา",en:"dog"},{th:"แมว",en:"cat"}],
- place:[{th:"โรงเรียน",en:"school"}],
- date:[{th:"วันจันทร์",en:"monday"}],
- daily:[{th:"โต๊ะ",en:"table"}],
- work:[{th:"ประชุม",en:"meeting"}]
+ fruit:[
+  {th:"แอปเปิ้ล",en:"apple"},
+  {th:"กล้วย",en:"banana"}
+ ],
+ animal:[
+  {th:"หมา",en:"dog"},
+  {th:"แมว",en:"cat"}
+ ],
+ place:[
+  {th:"โรงเรียน",en:"school"}
+ ],
+ date:[
+  {th:"วันจันทร์",en:"monday"}
+ ],
+ daily:[
+  {th:"โต๊ะ",en:"table"}
+ ],
+ work:[
+  {th:"ประชุม",en:"meeting"}
+ ]
 };
 
 let list=[],i=0,score=0,wrong=[];
 
-// ▶️ start
+// ▶️ เริ่ม
 function start(cat){
 
  if(cat==="mix"){
@@ -107,7 +143,6 @@ function start(cat){
    list=[...data[cat]];
  }
 
- // สุ่ม
  list=list.sort(()=>Math.random()-0.5);
 
  i=0; score=0; wrong=[];
@@ -118,7 +153,7 @@ function start(cat){
  show();
 }
 
-// 📖 show
+// 📖 แสดงคำ
 function show(){
  let q=list[i];
  word.innerText=q.th;
@@ -127,7 +162,7 @@ function show(){
  progress.innerText=`ข้อ ${i+1}/${list.length} | คะแนน ${score}`;
 }
 
-// ✅ check
+// ✅ ตรวจคำตอบ
 function check(){
  let user=ans.value.toLowerCase().trim();
  let correct=list[i].en.toLowerCase();
@@ -141,11 +176,9 @@ function check(){
    wrong.push(list[i]);
    sound(false);
  }
-
- save();
 }
 
-// ➡️ next
+// ➡️ ถัดไป
 function next(){
  if(i<list.length-1){
    i++;
@@ -155,7 +188,7 @@ function next(){
  }
 }
 
-// ⬅️ prev
+// ⬅️ ย้อน
 function prev(){
  if(i>0){
    i--;
@@ -163,13 +196,12 @@ function prev(){
  }
 }
 
-// 🏠 home
+// 🏠 กลับหน้าแรก
 function home(){
- localStorage.clear();
  location.reload();
 }
 
-// 🎯 finish
+// 🎯 จบ
 function finish(){
  if(wrong.length>0){
    alert("ทบทวนคำที่ผิด");
@@ -179,33 +211,7 @@ function finish(){
    show();
  }else{
    alert("จบแล้ว! คะแนน: "+score);
-   localStorage.clear();
  }
-}
-
-// 💾 save
-function save(){
- localStorage.setItem("progress",
- JSON.stringify({list,i,score,wrong})
- );
-}
-
-// 🔄 load
-window.onload=()=>{
- let p=localStorage.getItem("progress");
- if(p){
-   p=JSON.parse(p);
-   list=p.list;i=p.i;score=p.score;wrong=p.wrong;
-
-   menu.style.display="none";
-   quiz.style.display="block";
-   show();
- }
-}
-
-// 📱 PWA
-if('serviceWorker' in navigator){
- navigator.serviceWorker.register('sw.js');
 }
 
 </script>
