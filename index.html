@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -26,21 +27,24 @@ body{
 }
 
 #word{
-  font-size:45px;
+  font-size:40px;
   font-weight:bold;
 }
 
-input{
-  padding:15px;
-  width:90%;
-  border-radius:15px;
+#ans input{
+  width:40px;
+  height:45px;
+  margin:3px;
+  text-align:center;
   font-size:20px;
+  border-radius:10px;
+  border:1px solid #ccc;
 }
 
 button{
-  padding:18px;
+  padding:15px;
   border:none;
-  border-radius:18px;
+  border-radius:15px;
   background:#4facfe;
   color:white;
   font-size:18px;
@@ -48,78 +52,66 @@ button{
   margin-top:10px;
 }
 
-.nav-btn{
-  width:30%;
+.nav{
+  display:flex;
+  gap:5px;
+}
+
+.nav button{
+  width:33%;
 }
 
 #result{
-  font-size:20px;
   margin-top:10px;
-}
-
-#progress{
-  margin-top:5px;
-  color:#555;
+  font-size:18px;
 }
 </style>
+
 </head>
 
 <body>
 
-<!-- MENU -->
-<div id="menu" class="card">
-  <h2>📘 Vocab App</h2>
+<!-- 🏠 เมนูเลือกหมวด -->
 
-  <button onclick="start('animal')">🐶 สัตว์</button>
-  <button onclick="start('daily')">🧴 ของใช้</button>
-  <button onclick="start('Techer1')">📘 ครูแอน1-30</button>
-  <button onclick="start('Techer2')">📘 ครูแอน30-60</button>
-  <button onclick="start('Techer3')">📘 ครูแอน60-90</button>
-  <button onclick="start('Techer4')">📘 ครูแอน90-120</button>
-  <button onclick="start('Techer5')">📘 ครูแอน120-150</button>
-  <button onclick="start('Techer6')">📘 ครูแอน150-180</button>
-  <button onclick="start('Techer7')">📘 ครูแอน180-210</button>
-  <button onclick="start('mix')">🔥 สุ่มทั้งหมด</button>
+<div id="menu" class="card">
+  <h2>📚 เลือกหมวด</h2>
+
+<button onclick="selectCategory('animal')">🐶 สัตว์</button> 
+<button onclick="selectCategory('daily')">🏠 ของใช้</button>
+<button onclick="selectCategory('Techer1')">📘 ครูแอน 1</button>
+<button onclick="selectCategory('Techer2')">📘 ครูแอน 2</button>
+<button onclick="selectCategory('Techer3')">📘 ครูแอน 3</button>
+<button onclick="selectCategory('Techer4')">📘 ครูแอน 4</button>
+<button onclick="selectCategory('Techer5')">📘 ครูแอน 5</button>
+<button onclick="selectCategory('Techer6')">📘 ครูแอน 6</button>
+<button onclick="selectCategory('Techer7')">📘 ครูแอน 7</button>
 </div>
 
-<!-- QUIZ -->
+<!-- 🎮 หน้าเกม -->
+
 <div id="quiz" class="card" style="display:none;">
   <div id="word"></div>
-
   <div id="progress"></div>
 
-  <input id="ans" placeholder="พิมพ์คำศัพท์">
+  <div id="ans"></div>
 
-  <button onclick="check()">ตอบ</button>
-  <button onclick="speak()">🔊 ฟังเสียง</button>
+<button onclick="check()">ตอบ</button> <button onclick="hint()">💡 ใบ้</button> <button onclick="speak()">🔊 ฟังเสียง</button>
 
   <div id="result"></div>
 
-  <div>
-    <button class="nav-btn" onclick="prev()">⬅️</button>
-    <button class="nav-btn" onclick="next()">➡️</button>
-    <button class="nav-btn" onclick="home()">🏠</button>
+  <div class="nav">
+    <button onclick="prev()">⬅️</button>
+    <button onclick="next()">➡️</button>
+    <button onclick="home()">🏠</button>
   </div>
 </div>
 
 <script>
 
-// 🔊 เสียง
-function speak(text=null){
- let word = text || list[i].en;
- let msg = new SpeechSynthesisUtterance(word);
- msg.lang="en-US";
- speechSynthesis.speak(msg);
-}
+// 📚 คำศัพท์หลายหมวด
+const vocab = {
 
-// 🔀 สุ่ม
-function shuffle(array){
- return array.sort(()=>Math.random()-0.5);
-}
-
-// 📚 DATA (ตัวอย่างบางส่วน)
-const data={
- animal: [
+   animal: [
 {th:"สุนัข", en:"dog", read:"ด็อก"},
 {th:"แมว", en:"cat", read:"แคท"},
 {th:"นก", en:"bird", read:"เบิร์ด"},
@@ -172,7 +164,7 @@ const data={
 {th:"นกฟลามิงโก", en:"flamingo", read:"ฟลามิงโก"}
 ],
 
-daily: [
+   daily: [
 {th:"โต๊ะ", en:"table", read:"เทเบิล"},
 {th:"เก้าอี้", en:"chair", read:"แชร์"},
 {th:"เตียง", en:"bed", read:"เบด"},
@@ -225,7 +217,7 @@ daily: [
 {th:"ร่ม", en:"umbrella", read:"อัมเบรลลา"}
  ],
 
-Techer1: [
+   Techer1: [
 {th:"อุบัติเหตุ", en:"accident", read:"แอ็กซิเดนท์"},
 {th:"ที่อยู่", en:"address", read:"แอดเดรส"},
 {th:"ผู้ใหญ่", en:"adult", read:"แอดดัลท์"},
@@ -258,7 +250,7 @@ Techer1: [
 {th:"ลูกค้า", en:"customer", read:"คัสเทิมเมอร์"}
 ],
 
-Techer2: [
+   Techer2: [
 {th:"ข้อมูล", en:"data", read:"เดต้า"},
 {th:"ลูกสาว", en:"daughter", read:"ดอเทอร์"},
 {th:"ทันตแพทย์", en:"dentist", read:"เดนทิสท์"},
@@ -291,7 +283,7 @@ Techer2: [
 {th:"ชาวต่างชาติ", en:"foreigner", read:"ฟอเรนเนอร์"}
 ],
 
-Techer3: [
+   Techer3: [
 {th:"ส้อม", en:"fork", read:"ฟอร์ค"},
 {th:"ผลไม้", en:"fruit", read:"ฟรุท"},
 {th:"ของขวัญ", en:"gift", read:"กิฟท์"},
@@ -324,7 +316,7 @@ Techer3: [
 {th:"เหล็ก", en:"iron", read:"ไอรอน"}
 ],
 
-Techer4: [
+   Techer4: [
 {th:"เกาะ", en:"island", read:"ไอแลนด์"},
 {th:"ประเด็น", en:"issue", read:"อิชชู"},
 {th:"รายการ", en:"item", read:"ไอเทม"},
@@ -357,7 +349,7 @@ Techer4: [
 {th:"ตลาด", en:"market", read:"มาร์เก็ต"}
 ],
 
-Techer5: [
+   Techer5: [
 {th:"มื้อ", en:"meal", read:"มีล"},
 {th:"เนื้อ", en:"meat", read:"มีท"},
 {th:"ยา", en:"medicine", read:"เมดิซิน"},
@@ -390,7 +382,7 @@ Techer5: [
 {th:"ส่วน", en:"part", read:"พาร์ท"}
 ],
 
-Techer6: [
+   Techer6: [
 {th:"ผู้คน", en:"people", read:"พีเพิล"},
 {th:"คน", en:"person", read:"เพอร์ซัน"},
 {th:"สัตว์เลี้ยง", en:"pet", read:"เพ็ท"},
@@ -423,7 +415,7 @@ Techer6: [
 {th:"ไม้บรรทัด", en:"ruler", read:"รูเลอร์"}
 ],
 
-Techer7: [
+   Techer7: [
 {th:"เกลือ", en:"salt", read:"ซอลต์"},
 {th:"ไส้กรอก", en:"sausage", read:"ซอสเซจ"},
 {th:"กรรไกร", en:"scissors", read:"ซิสเซอร์ส"},
@@ -455,44 +447,110 @@ Techer7: [
 {th:"สิ่งของ", en:"thing", read:"ธิง"},
 {th:"ตั๋ว", en:"ticket", read:"ทิคเก็ต"}
 ]
+
 };
 
-let list=[],i=0,wrong=[],score=0;
+let currentCategory = "";
+let list=[], i=0, score=0, wrong=[];
+let revealed=[];
+
+// 🔊 เสียง
+function speak(text=null){
+ let word = text || list[i].en;
+ let msg = new SpeechSynthesisUtterance(word);
+ msg.lang="en-US";
+ speechSynthesis.speak(msg);
+}
+
+// 🔀 สุ่ม
+function shuffle(arr){
+ return arr.sort(()=>Math.random()-0.5);
+}
+
+// 📂 เลือกหมวด
+function selectCategory(cat){
+ currentCategory = cat;
+ start();
+}
 
 // ▶️ เริ่ม
-function start(cat){
-
- if(cat==="mix"){
-   list=[].concat(...Object.values(data));
- }else{
-   list=[...data[cat]];
- }
-
- list=shuffle(list); // 🔥 สุ่มทุกครั้ง
-
- i=0; wrong=[]; score=0;
-
+function start(){
+ list = shuffle([...vocab[currentCategory]]);
+ i=0; score=0; wrong=[];
  menu.style.display="none";
  quiz.style.display="block";
-
  show();
 }
 
-// 📖 แสดง
+// 📖 แสดงคำ
 function show(){
- let q=list[i];
- word.innerText=q.th;
- ans.value="";
- result.innerText="";
+ let q = list[i];
+ word.innerText = q.th;
+ revealed = Array(q.en.length).fill(false);
 
- progress.innerText=`คำที่ ${i+1} / ${list.length} | คะแนน ${score}`;
+ createInputs();
+
+ result.innerText="";
+ progress.innerText=`คำที่ ${i+1}/${list.length} | คะแนน ${score}`;
+}
+
+// 🔤 ช่องคำตอบ
+function createInputs(){
+ ans.innerHTML="";
+ let word = list[i].en;
+
+ for(let j=0;j<word.length;j++){
+   let input = document.createElement("input");
+   input.maxLength=1;
+
+   input.addEventListener("input", function(){
+     if(this.value.length===1){
+       let next = this.nextElementSibling;
+       if(next) next.focus();
+     }
+   });
+
+   ans.appendChild(input);
+ }
+}
+
+// 📥 รวมคำตอบ
+function getAnswer(){
+ let inputs = document.querySelectorAll("#ans input");
+ return [...inputs].map(i=>i.value).join("").toLowerCase();
+}
+
+// ⛔ ตรวจครบ
+function isComplete(){
+ let inputs = document.querySelectorAll("#ans input");
+ return [...inputs].every(i=>i.value.trim()!=="");
+}
+
+// 💡 ใบ้
+function hint(){
+ let word = list[i].en;
+ let inputs = document.querySelectorAll("#ans input");
+
+ let hidden = revealed.map((v,idx)=>!v?idx:null).filter(v=>v!==null);
+ if(hidden.length===0) return;
+
+ let rand = hidden[Math.floor(Math.random()*hidden.length)];
+
+ inputs[rand].value = word[rand];
+ inputs[rand].disabled = true;
+ revealed[rand]=true;
 }
 
 // ✅ ตรวจ
 function check(){
- let user=ans.value.toLowerCase().trim();
- let correct=list[i].en.toLowerCase();
- let read=list[i].read;
+ if(!isComplete()){
+   alert("กรอกให้ครบก่อน!");
+   return;
+ }
+
+ let user = getAnswer();
+ let correct = list[i].en;
+ let read = list[i].read;
 
  if(user===correct){
    result.innerHTML=`✅ ${correct}<br>🔊 ${read}`;
