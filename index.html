@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -56,14 +55,8 @@ body{
 /* 🎨 สี */
 .c1{background:linear-gradient(135deg,#ff9a9e,#fad0c4);}
 .c2{background:linear-gradient(135deg,#a18cd1,#fbc2eb);}
-.c3{background:linear-gradient(135deg,#f6d365,#fda085);}
-.c4{background:linear-gradient(135deg,#84fab0,#8fd3f4);}
-.c5{background:linear-gradient(135deg,#fccb90,#d57eeb);}
-.c6{background:linear-gradient(135deg,#43e97b,#38f9d7);}
-.c7{background:linear-gradient(135deg,#fa709a,#fee140);}
-.c8{background:linear-gradient(135deg,#30cfd0,#330867);}
 
-/* QUIZ ANIMATION */
+/* ANIMATION */
 .fade{
   animation:fade 0.3s ease;
 }
@@ -76,10 +69,9 @@ body{
 #word{
   font-size:38px;
   font-weight:bold;
-  margin-bottom:10px;
 }
 
-/* 🔥 INPUT (แก้ตรงนี้) */
+/* INPUT */
 #ans input{
   width:24px;
   height:36px;
@@ -88,23 +80,9 @@ body{
   font-size:18px;
   border-radius:10px;
   border:2px solid #4facfe;
-  background:#eaf4ff;
-  outline:none;
-  transition:0.2s;
 }
 
-/* focus */
-#ans input:focus{
-  border-color:#ff9a9e;
-  background:#fff;
-  transform:scale(1.1);
-}
-
-/* 🎨 ปุ่ม */
-.btn-check{background:#4facfe;}
-.btn-hint{background:#f6d365;}
-.btn-speak{background:#84fab0;}
-
+/* BUTTON */
 button{
   padding:12px;
   border:none;
@@ -115,40 +93,41 @@ button{
   margin-top:10px;
 }
 
-/* nav */
+.btn-check{background:#4facfe;}
+.btn-hint{background:#f6d365;}
+.btn-speak{background:#84fab0;}
+
+/* NAV */
 .nav{ display:flex; gap:5px; }
+
 .nav button:nth-child(1){background:#fa709a;}
 .nav button:nth-child(2){background:#30cfd0;}
 .nav button:nth-child(3){background:#a18cd1;}
+
 .nav button{ width:33%; }
 
-/* result */
-#result{
-  margin-top:10px;
-  font-size:18px;
-}
+#result{ margin-top:10px; font-size:18px; }
 
 </style>
-
 </head>
 
 <body>
 
 <!-- MENU -->
-
 <div id="menu" class="card">
   <h2>📚 เลือกหมวด</h2>
   <div class="grid" id="categoryGrid"></div>
 </div>
 
 <!-- QUIZ -->
-
 <div id="quiz" class="card" style="display:none;">
   <div id="word"></div>
   <div id="progress"></div>
   <div id="ans"></div>
 
-<button class="btn-check" onclick="check()">ตอบ</button> <button class="btn-hint" onclick="hint()">💡 ใบ้</button> <button class="btn-speak" onclick="speak()">🔊 ออกเสียง</button>
+  <button class="btn-check" onclick="check()">ตอบ</button>
+  <button class="btn-hint" onclick="hint()">💡 ใบ้</button>
+  <button class="btn-speak" onclick="speak()">🔊 ออกเสียง</button>
 
   <div id="result"></div>
 
@@ -161,411 +140,24 @@ button{
 
 <script>
 
-// vocab
+// vocab (ตัวอย่าง 2 หมวด)
 const vocab = {
-  Animal: [
-{th:"สุนัข", en:"dog", read:"ด็อก"},
-{th:"แมว", en:"cat", read:"แคท"},
-{th:"นก", en:"bird", read:"เบิร์ด"},
-{th:"ปลา", en:"fish", read:"ฟิช"},
-{th:"วัว", en:"cow", read:"คาว"},
-{th:"หมู", en:"pig", read:"พิก"},
-{th:"ม้า", en:"horse", read:"ฮอร์ส"},
-{th:"ไก่", en:"chicken", read:"ชิคเคิน"},
-{th:"เป็ด", en:"duck", read:"ดัค"},
-{th:"แพะ", en:"goat", read:"โกท"},
-{th:"แกะ", en:"sheep", read:"ชีพ"},
-{th:"เสือ", en:"tiger", read:"ไทเกอร์"},
-{th:"สิงโต", en:"lion", read:"ไลออน"},
-{th:"ช้าง", en:"elephant", read:"เอลิแฟนท์"},
-{th:"ลิง", en:"monkey", read:"มังคี"},
-{th:"งู", en:"snake", read:"สเนค"},
-{th:"กบ", en:"frog", read:"ฟร็อก"},
-{th:"เต่า", en:"turtle", read:"เทอร์เทิล"},
-{th:"กระต่าย", en:"rabbit", read:"แรบบิท"},
-{th:"กวาง", en:"deer", read:"เดียร์"},
-{th:"หมี", en:"bear", read:"แบร์"},
-{th:"ม้าลาย", en:"zebra", read:"ซีบร้า"},
-{th:"ยีราฟ", en:"giraffe", read:"จิราฟ"},
-{th:"จิงโจ้", en:"kangaroo", read:"แคงการู"},
-{th:"แพนด้า", en:"panda", read:"แพนด้า"},
-{th:"สุนัขจิ้งจอก", en:"fox", read:"ฟ็อกซ์"},
-{th:"หมาป่า", en:"wolf", read:"วูล์ฟ"},
-{th:"โลมา", en:"dolphin", read:"ดอลฟิน"},
-{th:"วาฬ", en:"whale", read:"เวล"},
-{th:"ฉลาม", en:"shark", read:"ชาร์ค"},
-{th:"ปู", en:"crab", read:"แครบ"},
-{th:"กุ้ง", en:"shrimp", read:"ชริมพ์"},
-{th:"ปลาหมึก", en:"octopus", read:"ออคโทพัส"},
-{th:"มด", en:"ant", read:"แอนท์"},
-{th:"ผึ้ง", en:"bee", read:"บี"},
-{th:"ผีเสื้อ", en:"butterfly", read:"บัตเตอร์ฟลาย"},
-{th:"แมงมุม", en:"spider", read:"สไปเดอร์"},
-{th:"ยุง", en:"mosquito", read:"มอสคีโท"},
-{th:"แมลงวัน", en:"fly", read:"ฟลาย"},
-{th:"แมลงสาบ", en:"cockroach", read:"ค็อกโครช"},
-{th:"นกอินทรี", en:"eagle", read:"อีเกิล"},
-{th:"นกฮูก", en:"owl", read:"เอาวล์"},
-{th:"นกยูง", en:"peacock", read:"พีค็อก"},
-{th:"ค้างคาว", en:"bat", read:"แบท"},
-{th:"อูฐ", en:"camel", read:"แคเมล"},
-{th:"จิ้งจก/กิ้งก่า", en:"lizard", read:"ลิซาร์ด"},
-{th:"เม่น", en:"hedgehog", read:"เฮดจ์ฮ็อก"},
-{th:"แมวน้ำ", en:"seal", read:"ซีล"},
-{th:"เพนกวิน", en:"penguin", read:"เพนกวิน"},
-{th:"นกฟลามิงโก", en:"flamingo", read:"ฟลามิงโก"}
-],
-
-   Daily: [
-{th:"โต๊ะ", en:"table", read:"เทเบิล"},
-{th:"เก้าอี้", en:"chair", read:"แชร์"},
-{th:"เตียง", en:"bed", read:"เบด"},
-{th:"หมอน", en:"pillow", read:"พิลโลว์"},
-{th:"ผ้าห่ม", en:"blanket", read:"แบลงเคท"},
-{th:"พัดลม", en:"fan", read:"แฟน"},
-{th:"ไฟ", en:"light", read:"ไลท์"},
-{th:"ประตู", en:"door", read:"ดอร์"},
-{th:"หน้าต่าง", en:"window", read:"วินโดว์"},
-{th:"นาฬิกา", en:"clock", read:"คลอค"},
-{th:"โทรศัพท์", en:"phone", read:"โฟน"},
-{th:"คอมพิวเตอร์", en:"computer", read:"คอมพิวเตอร์"},
-{th:"โน้ตบุ๊ก", en:"laptop", read:"แล็ปท็อป"},
-{th:"เมาส์", en:"mouse", read:"เมาส์"},
-{th:"แป้นพิมพ์", en:"keyboard", read:"คีย์บอร์ด"},
-{th:"ที่ชาร์จ", en:"charger", read:"ชาร์จเจอร์"},
-{th:"กระเป๋า", en:"bag", read:"แบ็ก"},
-{th:"กระเป๋าสตางค์", en:"wallet", read:"วอลเล็ท"},
-{th:"กุญแจ", en:"key", read:"คีย์"},
-{th:"แก้วน้ำ", en:"glass", read:"กลาส"},
-{th:"ถ้วย", en:"cup", read:"คัพ"},
-{th:"จาน", en:"plate", read:"เพลท"},
-{th:"ช้อน", en:"spoon", read:"สปูน"},
-{th:"ส้อม", en:"fork", read:"ฟอร์ค"},
-{th:"มีด", en:"knife", read:"ไนฟ์"},
-{th:"ขวด", en:"bottle", read:"บอทเทิล"},
-{th:"ตู้เย็น", en:"refrigerator", read:"รีฟริเจอเรเตอร์"},
-{th:"ไมโครเวฟ", en:"microwave", read:"ไมโครเวฟ"},
-{th:"เตา", en:"stove", read:"สโตฟ"},
-{th:"หม้อหุงข้าว", en:"rice cooker", read:"ไรซ์คุกเกอร์"},
-{th:"สบู่", en:"soap", read:"โซพ"},
-{th:"แชมพู", en:"shampoo", read:"แชมพู"},
-{th:"แปรงสีฟัน", en:"toothbrush", read:"ทูธบรัช"},
-{th:"ยาสีฟัน", en:"toothpaste", read:"ทูธเพสท์"},
-{th:"ผ้าเช็ดตัว", en:"towel", read:"ทาวเวล"},
-{th:"หวี", en:"comb", read:"โคมบ์"},
-{th:"กระจก", en:"mirror", read:"มิเรอร์"},
-{th:"เสื้อผ้า", en:"clothes", read:"โคลธส์"},
-{th:"เสื้อ", en:"shirt", read:"เชิร์ท"},
-{th:"กางเกง", en:"pants", read:"แพนท์ส"},
-{th:"รองเท้า", en:"shoes", read:"ชูส์"},
-{th:"หมวก", en:"hat", read:"แฮท"},
-{th:"นาฬิกาข้อมือ", en:"watch", read:"วอทช์"},
-{th:"ปากกา", en:"pen", read:"เพน"},
-{th:"ดินสอ", en:"pencil", read:"เพนซิล"},
-{th:"หนังสือ", en:"book", read:"บุ๊ค"},
-{th:"สมุด", en:"notebook", read:"โน้ตบุ๊ก"},
-{th:"กระดาษ", en:"paper", read:"เปเปอร์"},
-{th:"ถังขยะ", en:"trash can", read:"แทรชแคน"},
-{th:"ร่ม", en:"umbrella", read:"อัมเบรลลา"}
- ],
-
-   Test1: [
-{th:"อุบัติเหตุ", en:"accident", read:"แอ็กซิเดนท์"},
-{th:"ที่อยู่", en:"address", read:"แอดเดรส"},
-{th:"ผู้ใหญ่", en:"adult", read:"แอดดัลท์"},
-{th:"คำแนะนำ", en:"advice", read:"แอดไวซ์"},
-{th:"สัตว์", en:"animal", read:"แอนิมอล"},
-{th:"ห้องชุด", en:"apartment", read:"อะพาร์ทเมนต์"},
-{th:"แอปเปิล", en:"apple", read:"แอปเปิ้ล"},
-{th:"ใบสมัครงาน", en:"application", read:"แอพพลิเคชั่น"},
-{th:"การนัดหมาย", en:"appointment", read:"แอพพอยท์เมนท์"},
-{th:"ฤดูใบไม้ร่วง", en:"autumn", read:"ออทัมน์"},
-{th:"เด็กทารก", en:"baby", read:"เบบี้"},
-{th:"กระเป๋า", en:"bag", read:"แบ็ก"},
-{th:"ลูกโป่ง", en:"balloon", read:"บอลลูน"},
-{th:"ธนาคาร", en:"bank", read:"แบงค์"},
-{th:"ชายหาด", en:"beach", read:"บีช"},
-{th:"ผ้าห่ม", en:"blanket", read:"แบลงเค็ต"},
-{th:"สะพาน", en:"bridge", read:"บริดจ์"},
-{th:"แปรง", en:"brush", read:"บรัช"},
-{th:"อาคาร", en:"building", read:"บิลดิ้ง"},
-{th:"ผีเสื้อ", en:"butterfly", read:"บัตเตอร์ฟลาย"},
-{th:"เด็ก", en:"child", read:"ชายด์"},
-{th:"เด็กๆ", en:"children", read:"ชิลเดรน"},
-{th:"เมือง", en:"city", read:"ซิตี้"},
-{th:"นาฬิกา", en:"clock", read:"คลอก"},
-{th:"เสื้อผ้า", en:"clothes", read:"โคลดส์"},
-{th:"เมฆ", en:"cloud", read:"คลาวด์"},
-{th:"บริษัท", en:"company", read:"คัมพะนี"},
-{th:"ประเทศ", en:"country", read:"คันทรี"},
-{th:"ม่าน", en:"curtain", read:"เคอร์เทน"},
-{th:"ลูกค้า", en:"customer", read:"คัสเทิมเมอร์"}
-],
-
-   Test2: [
-{th:"ข้อมูล", en:"data", read:"เดต้า"},
-{th:"ลูกสาว", en:"daughter", read:"ดอเทอร์"},
-{th:"ทันตแพทย์", en:"dentist", read:"เดนทิสท์"},
-{th:"ทะเลทราย", en:"desert", read:"เดซเซิร์ท"},
-{th:"ขนมหวาน", en:"dessert", read:"ดิเซิร์ต"},
-{th:"รายละเอียด", en:"detail", read:"ดีเทล"},
-{th:"การลดราคา", en:"discount", read:"ดิสเคานท์"},
-{th:"แพทย์", en:"doctor", read:"ด็อกเตอร์"},
-{th:"เอกสาร", en:"document", read:"ด็อกคิวเมนท์"},
-{th:"ความฝัน", en:"dream", read:"ดรีม"},
-{th:"หู", en:"ear", read:"เอียร์"},
-{th:"ลูกจ้าง", en:"employee", read:"เอมพลอยอี"},
-{th:"นายจ้าง", en:"employer", read:"เอมพลอยเออร์"},
-{th:"ตอนจบ", en:"end", read:"เอนด์"},
-{th:"พลังงาน", en:"energy", read:"เอเนอร์จี"},
-{th:"วิศวกร", en:"engineer", read:"เอนจิเนียร์"},
-{th:"ทางเข้า", en:"entrance", read:"เอนทรานซ์"},
-{th:"ยางลบ", en:"eraser", read:"อีเรเซอร์"},
-{th:"ทางออก", en:"exit", read:"เอ็กซิท"},
-{th:"ดวงตา", en:"eye", read:"อาย"},
-{th:"ใบหน้า", en:"face", read:"เฟซ"},
-{th:"ครอบครัว", en:"family", read:"แฟมิลี่"},
-{th:"ไข้", en:"fever", read:"ฟีเวอร์"},
-{th:"สนาม", en:"field", read:"ฟิลด์"},
-{th:"ไฟ", en:"fire", read:"ไฟเออร์"},
-{th:"แป้ง", en:"flour", read:"ฟลาวเออร์"},
-{th:"ดอกไม้", en:"flower", read:"ฟลาวเวอร์"},
-{th:"อาหาร", en:"food", read:"ฟูด"},
-{th:"เท้า", en:"foot", read:"ฟุท"},
-{th:"ชาวต่างชาติ", en:"foreigner", read:"ฟอเรนเนอร์"}
-],
-
-   Test3: [
-{th:"ส้อม", en:"fork", read:"ฟอร์ค"},
-{th:"ผลไม้", en:"fruit", read:"ฟรุท"},
-{th:"ของขวัญ", en:"gift", read:"กิฟท์"},
-{th:"แก้ว", en:"glass", read:"กลาส"},
-{th:"แว่นตา", en:"glasses", read:"กลาสเซส"},
-{th:"ทอง", en:"gold", read:"โกลด์"},
-{th:"สินค้า", en:"goods", read:"กู๊ดส์"},
-{th:"รัฐบาล", en:"government", read:"โกเวิร์นเมนต์"},
-{th:"องุ่น", en:"grape", read:"เกรป"},
-{th:"หญ้า", en:"grass", read:"กราส"},
-{th:"ร้านขายของชำ", en:"grocery", read:"โกรซะรี"},
-{th:"กลุ่ม", en:"group", read:"กรุ๊ป"},
-{th:"ครึ่ง", en:"half", read:"ฮาฟ"},
-{th:"มือ", en:"hand", read:"แฮนด์"},
-{th:"หัวใจ", en:"heart", read:"ฮาร์ต"},
-{th:"รู", en:"hole", read:"โฮล"},
-{th:"การบ้าน", en:"homework", read:"โฮมเวิร์ค"},
-{th:"น้ำผึ้ง", en:"honey", read:"ฮันนี"},
-{th:"ม้า", en:"horse", read:"ฮอร์ส"},
-{th:"โรงพยาบาล", en:"hospital", read:"ฮอสพิทอล"},
-{th:"ชั่วโมง", en:"hour", read:"เอาเออะ"},
-{th:"งานบ้าน", en:"housework", read:"เฮาส์เวิร์ค"},
-{th:"น้ำแข็ง", en:"ice", read:"ไอซ์"},
-{th:"ความคิด", en:"idea", read:"ไอเดีย"},
-{th:"ข้อมูล", en:"information", read:"อินฟอร์เมชัน"},
-{th:"วัตถุดิบ", en:"ingredient", read:"อินกรีเดียนท์"},
-{th:"แมลง", en:"insect", read:"อินเซคท์"},
-{th:"การสัมภาษณ์", en:"interview", read:"อินเทอร์วิว"},
-{th:"การแนะนำ", en:"introduction", read:"อินโทรดักชัน"},
-{th:"เหล็ก", en:"iron", read:"ไอรอน"}
-],
-
-   Test4: [
-{th:"เกาะ", en:"island", read:"ไอแลนด์"},
-{th:"ประเด็น", en:"issue", read:"อิชชู"},
-{th:"รายการ", en:"item", read:"ไอเทม"},
-{th:"เสื้อชั้นนอก", en:"jacket", read:"แจ็คเก็ต"},
-{th:"คุก", en:"jail", read:"เจล"},
-{th:"แยม", en:"jam", read:"แจม"},
-{th:"กระปุก", en:"jar", read:"จาร์"},
-{th:"งาน", en:"job", read:"จ๊อบ"},
-{th:"เรื่องตลก", en:"joke", read:"โจ๊ค"},
-{th:"น้ำผลไม้", en:"juice", read:"จูซ"},
-{th:"กุญแจ", en:"key", read:"คีย์"},
-{th:"เด็ก", en:"kid", read:"คิด"},
-{th:"กษัตริย์", en:"king", read:"คิง"},
-{th:"ครัว", en:"kitchen", read:"คิทชิน"},
-{th:"ว่าว", en:"kite", read:"ไคท์"},
-{th:"เข่า", en:"knee", read:"นี"},
-{th:"มีด", en:"knife", read:"ไนฟ์"},
-{th:"ความรู้", en:"knowledge", read:"นอลลิจ"},
-{th:"ภาษา", en:"language", read:"แลงเกวจ"},
-{th:"บทเรียน", en:"lesson", read:"เลสซัน"},
-{th:"จดหมาย", en:"letter", read:"เลทเทอร์"},
-{th:"ชีวิต", en:"life", read:"ไลฟ์"},
-{th:"แสงสว่าง", en:"light", read:"ไลท์"},
-{th:"เส้น", en:"line", read:"ไลน์"},
-{th:"สิงโต", en:"lion", read:"ไลออน"},
-{th:"ริมฝีปาก", en:"lip", read:"ลิป"},
-{th:"กระเป๋าเดินทาง", en:"luggage", read:"ลักเกจ"},
-{th:"อาหารกลางวัน", en:"lunch", read:"ลันช์"},
-{th:"ผู้จัดการ", en:"manager", read:"แมเนเจอร์"},
-{th:"ตลาด", en:"market", read:"มาร์เก็ต"}
-],
-
-   Test5: [
-{th:"มื้อ", en:"meal", read:"มีล"},
-{th:"เนื้อ", en:"meat", read:"มีท"},
-{th:"ยา", en:"medicine", read:"เมดิซิน"},
-{th:"สมาชิก", en:"member", read:"เมมเบอร์"},
-{th:"ความทรงจำ", en:"memory", read:"เมมโมรี"},
-{th:"นาที", en:"minute", read:"มินิท"},
-{th:"ความผิดพลาด", en:"mistake", read:"มิสเทค"},
-{th:"ปาก", en:"mouth", read:"เมาธ์"},
-{th:"คอ", en:"neck", read:"เนค"},
-{th:"เพื่อนบ้าน", en:"neighbour", read:"เนเบอร์"},
-{th:"หนังสือพิมพ์", en:"newspaper", read:"นิวสเปเปอร์"},
-{th:"เสียงรบกวน", en:"noise", read:"นอยซ์"},
-{th:"กลางวัน", en:"noon", read:"นูน"},
-{th:"ทิศเหนือ", en:"north", read:"นอร์ท"},
-{th:"จมูก", en:"nose", read:"โนส"},
-{th:"สมุดบันทึก", en:"notebook", read:"โน้ตบุ๊ก"},
-{th:"นิยาย", en:"novel", read:"นอเวล"},
-{th:"พยาบาล", en:"nurse", read:"เนิร์ส"},
-{th:"วัตถุ", en:"object", read:"ออบเจ็กต์"},
-{th:"มหาสมุทร", en:"ocean", read:"โอเชียน"},
-{th:"น้ำมัน", en:"oil", read:"ออยล์"},
-{th:"หัวหอม", en:"onion", read:"ออนเนียน"},
-{th:"ความคิดเห็น", en:"opinion", read:"โอพินเนียน"},
-{th:"ทางเลือก", en:"option", read:"ออปชัน"},
-{th:"ส้ม", en:"orange", read:"ออเรนจ์"},
-{th:"คำสั่ง", en:"order", read:"ออเดอร์"},
-{th:"เตาอบ", en:"oven", read:"อัฟเวิน"},
-{th:"เจ้าของ", en:"owner", read:"โอนเนอร์"},
-{th:"พ่อแม่", en:"parents", read:"แพเรนท์ส"},
-{th:"ส่วน", en:"part", read:"พาร์ท"}
-],
-
-   Test6: [
-{th:"ผู้คน", en:"people", read:"พีเพิล"},
-{th:"คน", en:"person", read:"เพอร์ซัน"},
-{th:"สัตว์เลี้ยง", en:"pet", read:"เพ็ท"},
-{th:"โทรศัพท์", en:"phone", read:"โฟน"},
-{th:"รูปถ่าย", en:"photo", read:"โฟโต้"},
-{th:"รูปภาพ", en:"picture", read:"พิกเชอร์"},
-{th:"ชิ้น", en:"piece", read:"พีซ"},
-{th:"หมอน", en:"pillow", read:"พิลโลว์"},
-{th:"สถานที่", en:"place", read:"เพลส"},
-{th:"พืช", en:"plant", read:"แพลนท์"},
-{th:"ตำรวจ (หลายคน)", en:"police", read:"โพลีซ"},
-{th:"ตำรวจ (1 คน)", en:"policeman", read:"โพลีซแมน"},
-{th:"การฝึกฝน", en:"practice", read:"แพร็กทิส"},
-{th:"ราคา", en:"price", read:"ไพรซ์"},
-{th:"ปัญหา", en:"problem", read:"พร็อบเลม"},
-{th:"ผลิตภัณฑ์", en:"product", read:"พรอดักท์"},
-{th:"ราชินี", en:"queen", read:"ควีน"},
-{th:"คำถาม", en:"question", read:"เควสชัน"},
-{th:"คิว", en:"queue", read:"คิว"},
-{th:"แบบทดสอบ", en:"quiz", read:"ควิซ"},
-{th:"กระต่าย", en:"rabbit", read:"แรบบิท"},
-{th:"ตู้เย็น", en:"refrigerator", read:"รีฟริเจอเรเตอร์"},
-{th:"ร้านอาหาร", en:"restaurant", read:"เรสเตอรองต์"},
-{th:"ข้าว", en:"rice", read:"ไรซ์"},
-{th:"แหวน", en:"ring", read:"ริง"},
-{th:"แม่น้ำ", en:"river", read:"ริเวอร์"},
-{th:"ถนน", en:"road", read:"โรด"},
-{th:"ห้อง", en:"room", read:"รูม"},
-{th:"ดอกกุหลาบ", en:"rose", read:"โรส"},
-{th:"ไม้บรรทัด", en:"ruler", read:"รูเลอร์"}
-],
-
-   Test7: [
-{th:"เกลือ", en:"salt", read:"ซอลต์"},
-{th:"ไส้กรอก", en:"sausage", read:"ซอสเซจ"},
-{th:"กรรไกร", en:"scissors", read:"ซิสเซอร์ส"},
-{th:"ทะเล", en:"sea", read:"ซี"},
-{th:"ฤดูกาล", en:"season", read:"ซีซัน"},
-{th:"ที่นั่ง", en:"seat", read:"ซีต"},
-{th:"แกะ", en:"sheep", read:"ชีพ"},
-{th:"ร้านค้า", en:"shop", read:"ช็อป"},
-{th:"ทักษะ", en:"skill", read:"สกิล"},
-{th:"สบู่", en:"soap", read:"โซป"},
-{th:"ทหาร", en:"soldier", read:"โซลเจอร์"},
-{th:"เพลง", en:"song", read:"ซอง"},
-{th:"เสียง", en:"sound", read:"ซาวด์"},
-{th:"ทิศใต้", en:"south", read:"เซาท์"},
-{th:"ช้อน", en:"spoon", read:"สปูน"},
-{th:"กีฬา", en:"sport", read:"สปอร์ต"},
-{th:"ดาว", en:"star", read:"สตาร์"},
-{th:"ถนน", en:"street", read:"สตรีท"},
-{th:"นักเรียน", en:"student", read:"สตูเดนท์"},
-{th:"น้ำตาล", en:"sugar", read:"ชูการ์"},
-{th:"โต๊ะ", en:"table", read:"เทเบิล"},
-{th:"รสชาติ", en:"taste", read:"เทสต์"},
-{th:"วัยรุ่น", en:"teenager", read:"ทีนเอเจอร์"},
-{th:"โทรศัพท์", en:"telephone", read:"เทเลโฟน"},
-{th:"โทรทัศน์", en:"television", read:"เทเลวิชัน"},
-{th:"อุณหภูมิ", en:"temperature", read:"เทมเพอเรเชอร์"},
-{th:"การทดสอบ", en:"test", read:"เทสต์"},
-{th:"หัวขโมย", en:"thief", read:"ทีฟ"},
-{th:"สิ่งของ", en:"thing", read:"ธิง"},
-{th:"ตั๋ว", en:"ticket", read:"ทิคเก็ต"}
-],
-
-   Test8: [
-{th:"เวลา", en:"time", read:"ไทม์"},
-
-{th:"มะเขือเทศ", en:"tomato", read:"โทเมโท"},
-
-{th:"ลิ้น", en:"tongue", read:"ทัง"},
-
-{th:"ฟัน", en:"tooth", read:"ทูธ"},
-
-{th:"เมือง", en:"town", read:"ทาวน์"},
-
-{th:"ของเล่น", en:"toy", read:"ทอย"},
-
-{th:"รถไฟ", en:"train", read:"เทรน"},
-
-{th:"การขนส่ง", en:"transport", read:"ทรานสพอร์ต"},
-
-{th:"ต้นไม้", en:"tree", read:"ทรี"},
-
-{th:"แฝด", en:"twin", read:"ทวิน"},
-
-{th:"ร่ม", en:"umbrella", read:"อัมเบรลลา"},
-
-{th:"ลุง", en:"uncle", read:"อังเคิล"},
-
-{th:"ชุดชั้นใน", en:"underwear", read:"อันเดอร์แวร์"},
-
-{th:"เครื่องแบบ", en:"uniform", read:"ยูนิฟอร์ม"},
-
-{th:"หน่วย", en:"unit", read:"ยูนิต"},
-
-{th:"จักรวาล", en:"universe", read:"ยูนิเวิร์ส"},
-
-{th:"มหาวิทยาลัย", en:"university", read:"ยูนิเวอร์ซิตี้"},
-
-{th:"ผู้ใช้", en:"user", read:"ยูเซอร์"},
-
-{th:"คุณค่า", en:"value", read:"แวลยู"},
-
-{th:"รถตู้", en:"van", read:"แวน"},
-
-{th:"แจกัน", en:"vase", read:"เวส"},
-
-{th:"ผัก", en:"vegetable", read:"เวจเทอะเบิล"},
-
-{th:"ยานพาหนะ", en:"vehicle", read:"วีฮิเคิล"},
-
-{th:"หมู่บ้าน", en:"village", read:"วิลเลจ"},
-
-{th:"ผู้มาเยือน", en:"visitor", read:"วิซิเทอร์"},
-
-{th:"คำศัพท์", en:"vocabulary", read:"โวแคบบิวลารี"},
-
-{th:"เสียง", en:"voice", read:"วอยซ์"},
-{th:"อาสาสมัคร", en:"volunteer", read:"วอลันเทียร์"},
-
-{th:"ผนัง / กำแพง", en:"wall", read:"วอล"},
-
-{th:"กระเป๋าสตางค์", en:"wallet", read:"วอลเล็ท"}
-
-]
+  Animal:[
+    {th:"สุนัข",en:"dog",read:"ด็อก"},
+    {th:"แมว",en:"cat",read:"แคท"},
+    {th:"นก",en:"bird",read:"เบิร์ด"},
+    {th:"ปลา",en:"fish",read:"ฟิช"}
+  ],
+  Daily:[
+    {th:"โต๊ะ",en:"table",read:"เทเบิล"},
+    {th:"เก้าอี้",en:"chair",read:"แชร์"},
+    {th:"เตียง",en:"bed",read:"เบด"},
+    {th:"หมอน",en:"pillow",read:"พิลโลว์"}
+  ]
 };
 
-const icons = {Animal:"🐶",Daily:"🏠",Test1:"📘",Test2:"📘",Test3:"📘",Test4:"📘",Test5:"📘",Test6:"📘",Test7:"📘",
-Test8:"📘",random:"🎲"};
-const colors=["c1","c2","c3","c4","c5","c6","c7","c8"];
+const icons = {Animal:"🐶",Daily:"🏠"};
+const colors=["c1","c2"];
 
 function renderCategories(){
   let grid=document.getElementById("categoryGrid");
@@ -579,24 +171,10 @@ function renderCategories(){
     grid.appendChild(btn);
     i++;
   }
-
-  let rand=document.createElement("button");
-  rand.className="cat "+colors[i%colors.length];
-  rand.innerHTML=`<span>🎲</span>สุ่ม`;
-  rand.onclick=startRandomAll;
-  grid.appendChild(rand);
 }
 renderCategories();
 
 function shuffle(a){return a.sort(()=>Math.random()-0.5);}
-
-function startRandomAll(){
-  let all=[];
-  for(let k in vocab){ all=all.concat(vocab[k]); }
-  while(all.length<50){ all=all.concat(all); }
-  list=shuffle(all).slice(0,50);
-  startGame();
-}
 
 function selectCategory(cat){
   list=shuffle([...vocab[cat]]);
@@ -604,13 +182,13 @@ function selectCategory(cat){
 }
 
 function startGame(){
-  i=0; score=0; wrong=[];
+  i=0; score=0; wrong=[]; reviewMode=false;
   menu.style.display="none";
   quiz.style.display="block";
   show();
 }
 
-let list=[], i=0, score=0, wrong=[], revealed=[];
+let list=[], i=0, score=0, wrong=[], reviewMode=false;
 
 // 🔊
 function speak(text=null){
@@ -622,13 +200,14 @@ function speak(text=null){
 
 // show
 function show(){
+
+  // 🔥 animation
   quiz.classList.remove("fade");
   void quiz.offsetWidth;
   quiz.classList.add("fade");
 
   let q=list[i];
   word.innerText=q.th;
-  revealed=Array(q.en.length).fill(false);
 
   ans.innerHTML="";
 
@@ -636,8 +215,14 @@ function show(){
     let inp=document.createElement("input");
     inp.maxLength=1;
 
-    // 🔥 auto next
-    inp.addEventListener("input", function(){
+    // ✅ FIX iOS keyboard
+    inp.setAttribute("autocapitalize","off");
+    inp.setAttribute("autocomplete","off");
+    inp.setAttribute("autocorrect","off");
+    inp.setAttribute("spellcheck","false");
+    inp.inputMode="latin";
+
+    inp.addEventListener("input",function(){
       this.value=this.value.toLowerCase();
       if(this.value.length===1){
         let next=this.nextElementSibling;
@@ -645,8 +230,7 @@ function show(){
       }
     });
 
-    // 🔥 backspace ย้อน
-    inp.addEventListener("keydown", function(e){
+    inp.addEventListener("keydown",function(e){
       if(e.key==="Backspace" && this.value===""){
         let prev=this.previousElementSibling;
         if(prev) prev.focus();
@@ -656,7 +240,6 @@ function show(){
     ans.appendChild(inp);
   }
 
-  // focus ช่องแรก
   setTimeout(()=>{
     let first=document.querySelector("#ans input");
     if(first) first.focus();
@@ -702,9 +285,21 @@ function next(){ i<list.length-1?(i++,show()):finish(); }
 function prev(){ if(i>0){i--;show();} }
 function home(){ location.reload(); }
 
-// finish
+// finish + review
 function finish(){
-  alert("🏆 คะแนน: "+score);
+  if(!reviewMode && wrong.length>0){
+    alert("🔁 ทบทวนคำผิด "+wrong.length+" คำ");
+
+    list=shuffle([...wrong]);
+    i=0;
+    wrong=[];
+    reviewMode=true;
+
+    show();
+  }else{
+    alert("🏆 คะแนน: "+score);
+    reviewMode=false;
+  }
 }
 
 </script>
