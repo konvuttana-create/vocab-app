@@ -121,7 +121,7 @@ button{
 
 <!-- MENU -->
 <div id="menu" class="card">
-  <h2>📚 เลือกหมวด</h2>
+  <h2>📚 อู๊ดๆ😊 เลือกหมวด  📚 </h2>
   <div class="grid" id="categoryGrid"></div>
 </div>
 
@@ -485,7 +485,8 @@ const vocab = {
 {th:"ตั๋ว", en:"ticket", read:"ทิคเก็ต"}
 ],
 
-   Test8: [ {th:"เวลา", en:"time", read:"ไทม์"}, 
+   Test8: [ 
+{th:"เวลา", en:"time", read:"ไทม์"}, 
 {th:"มะเขือเทศ", en:"tomato", read:"โทเมโท"}, 
 {th:"ลิ้น", en:"tongue", read:"ทัง"}, 
 {th:"ฟัน", en:"tooth", read:"ทูธ"},
@@ -515,10 +516,110 @@ const vocab = {
 {th:"อาสาสมัคร", en:"volunteer", read:"วอลันเทียร์"}, 
 {th:"ผนัง / กำแพง", en:"wall", read:"วอล"}, 
 {th:"กระเป๋าสตางค์", en:"wallet", read:"วอลเล็ท"} 
+],
+
+   Test9: [
+
+
+{th:"สงคราม", en:"war", read:"วอร์"},
+
+{th:"ทาง", en:"way", read:"เวย์"},
+
+{th:"สภาพอากาศ", en:"weather", read:"เวเธอร์"},
+
+{th:"สัปดาห์", en:"week", read:"วีค"},
+
+{th:"น้ำหนัก", en:"weight", read:"เวท"},
+
+{th:"ทิศตะวันตก", en:"west", read:"เวสต์"},
+
+{th:"ภรรยา", en:"wife", read:"ไวฟ์"},
+
+{th:"ลม", en:"wind", read:"วินด์"},
+
+{th:"หน้าต่าง", en:"window", read:"วินโดว์"},
+
+{th:"ผู้หญิง", en:"woman", read:"วูแมน"},
+
+{th:"คำ", en:"word", read:"เวิร์ด"},
+
+{th:"โลก", en:"world", read:"เวิลด์"},
+
+{th:"ลานบ้าน", en:"yard", read:"ยาร์ด"},
+
+{th:"ปี", en:"year", read:"เยียร์"},
+
+{th:"โยเกิร์ต", en:"yoghurt", read:"โยเกิร์ต"},
+
+{th:"เยาวชน / วัยรุ่น", en:"youth", read:"ยูธ"},
+
+{th:"ม้าลาย", en:"zebra", read:"ซีบร้า"},
+
+{th:"ศูนย์", en:"zero", read:"ซีโร"},
+
+{th:"พื้นที่", en:"zone", read:"โซน"},
+
+{th:"สวนสัตว์", en:"zoo", read:"ซู"},
+
+
+{th:"ฉัน", en:"I", read:"ไอ"},
+
+{th:"คุณ", en:"you", read:"ยู"},
+{th:"พวกเรา", en:"we", read:"วี"},
+
+{th:"พวกเขา", en:"they", read:"เดย์"},
+
+{th:"เขา (ผู้ชาย)", en:"he", read:"ฮี"},
+
+{th:"เธอ (ผู้หญิง)", en:"she", read:"ชี"},
+
+{th:"มัน", en:"it", read:"อิท"},
+
+{th:"ฉัน (กรรม)", en:"me", read:"มี"},
+
+{th:"พวกเรา (กรรม)", en:"us", read:"อัส"},
+
+{th:"พวกเขา (กรรม)", en:"them", read:"เด็ม"}
+
+
+],
+
+Test10: [
+{th:"เขา (กรรม)", en:"him", read:"ฮิม", note:"ใช้เป็นกรรม เช่น I see him"},
+{th:"เธอ (กรรม)", en:"her", read:"เฮอร์", note:"ใช้เป็นกรรม เช่น I love her"},
+{th:"ตัวฉันเอง", en:"myself", read:"มายเซลฟ์", note:"reflexive ใช้เมื่อทำกับตัวเอง"},
+{th:"ตัวคุณเอง", en:"yourself", read:"ยัวร์เซลฟ์", note:"reflexive"},
+{th:"ตัวพวกเราเอง", en:"ourselves", read:"เอาเซลฟ์ส", note:"reflexive พหูพจน์"},
+{th:"ตัวพวกเขาเอง", en:"themselves", read:"เด็มเซลฟ์ส", note:"reflexive"},
+{th:"ตัวเขาเอง", en:"himself", read:"ฮิมเซลฟ์", note:"reflexive"},
+{th:"ตัวเธอเอง", en:"herself", read:"เฮอร์เซลฟ์", note:"reflexive"},
+{th:"ตัวมันเอง", en:"itself", read:"อิทเซลฟ์", note:"reflexive"},
+{th:"ใครก็ได้", en:"anybody", read:"เอนีบอดี", note:"ใช้ในคำถาม/ปฏิเสธ"},
+{th:"ใครก็ได้", en:"anyone", read:"เอนีวัน", note:"เหมือน anybody"},
+{th:"อะไรก็ได้", en:"anything", read:"เอนีธิง", note:"ใช้กับสิ่งของ"},
+{th:"ทุกคน", en:"everybody", read:"เอฟวรีบอดี", note:"ทุกคน (รวมหมด)"},
+{th:"ทุกคน", en:"everyone", read:"เอฟวรีวัน", note:"เหมือน everybody"},
+{th:"ทุกอย่าง", en:"everything", read:"เอฟวรีธิง", note:"ทุกสิ่ง"},
+{th:"ไม่มีใคร", en:"nobody", read:"โนบอดี", note:"ความหมายลบ"},
+{th:"ไม่มีเลย", en:"none", read:"นัน", note:"ไม่มีแม้แต่หนึ่ง"},
+{th:"ไม่มีอะไร", en:"nothing", read:"นัธธิง", note:"ไม่มีสิ่งใดเลย"},
+{th:"บางคน", en:"somebody", read:"ซัมบอดี", note:"ใช้ในประโยคบอกเล่า"},
+{th:"บางคน", en:"someone", read:"ซัมวัน", note:"เหมือน somebody"},
+{th:"บางสิ่ง", en:"something", read:"ซัมธิง", note:"สิ่งที่ไม่ระบุ"},
+{th:"ยอมรับ", en:"accept", read:"แอคเซ็พท์", note:"accept = ยอมรับ / receive"},
+{th:"เพิ่ม", en:"add", read:"แอด", note:"เพิ่มเข้าไป"},
+{th:"โฆษณา", en:"advertise", read:"แอดเวอร์ไทซ์", note:"ทำการโปรโมท"},
+{th:"เห็นด้วย", en:"agree", read:"อะกรี", note:"agree with = เห็นด้วยกับ"},
+{th:"อนุญาต", en:"allow", read:"อะเลา", note:"allow someone to do something"},
+{th:"ขอโทษ", en:"apologise", read:"อะพอลโลไจซ์", note:"BrE (AmE = apologize)"},
+{th:"มาถึง", en:"arrive", read:"อะไรฟ์", note:"arrive at/in"},
+{th:"ถาม", en:"ask", read:"แอสก์", note:"ask = ถาม / ขอ"},
+{th:"ช่วยเหลือ", en:"assist", read:"อะซิสท์", note:"เป็นทางการกว่า help"}
+
 ]
 };
 
-const icons = {Animal:"🐶",Daily:"🏠",Test1:"📘",Test2:"📘",Test3:"📘",Test4:"📘",Test5:"📘",Test6:"📘",Test7:"📘",Test8:"📘",random:"🎲"};
+const icons = {Animal:"🐶",Daily:"🏠",Test1:"📱",Test2:"🔥",Test3:"🎯",Test4:"💼",Test5:"🚗",Test6:"😊",Test7:"🌦️",Test8:"🏃‍",Test9:"💻",Test10:"🚀",random:"🎲"};
 const colors=["c1","c2","c3","c4","c5","c6","c7","c8"];
 
 function renderCategories(){
